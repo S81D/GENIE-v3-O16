@@ -109,37 +109,93 @@ void NucDeExcitationSim::OxygenTargetSim(GHepRecord * evrec) const
     //
 
     // > probabilities for creating a p-hole in the P1/2, P3/2, S1/2 shells
-    double Pp12 = 0.25;              // P1/2 
-    double Pp32 = 0.47;              // P3/2 
-    double Ps12 = 1. - Pp12 - Pp32;  // S1/2 
+    double Pp12 = 0.158;             // P1/2
+    double Pp32 = 0.327;             // P3/2 
+    double Ps12 = 0.200;             // S1/2 
 
     // > excited state energy levels & probabilities for P3/2-shell p-holes
     const int np32 = 3;
     double p32Elv[np32] = { 0.00632, 0.00993, 0.01070 };
-    double p32Plv[np32] = { 0.872,   0.064,   0.064   }; 
+    double p32Plv[np32] = { 0.899,   0.049,   0.052   }; 
     // - probabilities for deexcitation modes of P3/2-shell p-hole state '1' 
     double p32Plv1_1gamma  = 0.78;  // prob to decay via 1 gamma
     double p32Plv1_cascade = 0.22;  // prob to decay via gamma cascade
 
     // > excited state energy levels & probabilities for S1/2-shell p-holes
-    const int ns12 = 11;
-    double s12Elv[ns12] = { 
-               0.00309, 0.00368, 0.00385, 0.00444, 0.00492,
-               0.00511, 0.00609, 0.00673, 0.00701, 0.00703, 0.00734 }; 
+    // > many states measured by Kobayashi 2006 have no "detectable" (> 3 MeV) gamma-rays
+    // > and therefore the probabilities will not sum to 1
+    const int ns12 = 17;
+    double s12Elv[ns12] = {   // J^pi
+               0.00309,       // 1/2+
+               0.00368,       // 3/2+
+               0.00385,       // 5/2+
+               0.00444,       // 2+
+               0.00492,       // 0-
+               0.00511,       // 2-
+               0.00569,       // 1-
+               0.00583,       // 3-
+               0.00609,       // 1-
+               0.00620,       // 1+
+               0.00645,       // 3+
+               0.00659,       // 0+
+               0.00673,       // 3-
+               0.00690,       // 0-
+               0.00701,       // 2+
+               0.00703,       // 2+
+               0.00734 };     // 2-
     double s12Plv[ns12] = { 
-               0.0625,  0.1875,  0.075,   0.1375,  0.1375,
-               0.0125,  0.0125,  0.075,   0.0563,  0.0563,  0.1874  };
+               0.0300,        
+               0.0420,        
+               0.0460,        
+               0.0580,        
+               0.0520,        
+               0.0000,        
+               0.0450,        
+               0.0054,      
+               0.0000,        
+               0.0000,        
+               0.0280,        
+               0.0000,       
+               0.0043,        
+               0.0000,        
+               0.0335,        // 7.01 / 7.03 MeV states not individually resolvable
+               0.0335,        // combined probability is 6.7%; split in two
+               0.0570 };
     // - gamma energies and probabilities for S1/2-shell p-hole excited 
-    //   states '2','7' and '10' with >1 deexcitation modes
-    const int ns12lv2 = 3;
-    double s12Elv2[ns12lv2]    = { 0.00309, 0.00369, 0.00385 };
-    double s12Plv2[ns12lv2]    = { 0.013,   0.360,   0.625   };
-    const int ns12lv7 = 2;
-    double s12Elv7[ns12lv7]    = { 0.00609, 0.00673 };
-    double s12Plv7[ns12lv7]    = { 0.04,    0.96    };
-    const int ns12lv10 = 3;
-    double s12Elv10[ns12lv10]  = { 0.00609, 0.00673, 0.00734 };
-    double s12Plv10[ns12lv10]  = { 0.050,   0.033,   0.017   };
+
+    //   states with >1 deexcitation modes
+    //   sel_state = [2,6,7,9,10,12,14,16]
+    const int ns12lv2 = 3;     // 3.85 MeV triple
+    double s12Elv2[ns12lv2]    = { 0.00309, 0.00368, 0.00385 };
+    double s12Plv2[ns12lv2]    = { 0.012,   0.363,   0.625   };
+
+    const int ns12lv6 = 2;     // 5.69 MeV double
+    double s12Elv6[ns12lv6]    = { 0.00338, 0.00569 };
+    double s12Plv6[ns12lv6]    = { 0.639,   0.361   };
+
+    const int ns12lv7 = 2;     // 5.83 MeV double
+    double s12Elv7[ns12lv7]    = { 0.00511, 0.00583 };
+    double s12Plv7[ns12lv7]    = { 0.629,   0.213   };
+
+    const int ns12lv9 = 2;     // 6.20 MeV double
+    double s12Elv9[ns12lv9]    = { 0.00389, 0.00620 };
+    double s12Plv9[ns12lv9]    = { 0.769,   0.231   };
+
+    const int ns12lv10 = 2;    // 6.45 MeV double
+    double s12Elv10[ns12lv10]  = { 0.00511, 0.00644 };
+    double s12Plv10[ns12lv10]  = { 0.081,   0.701   };
+
+    const int ns12lv12 = 2;    // 6.73 MeV double
+    double s12Elv12[ns12lv12]  = { 0.00609, 0.00673 };
+    double s12Plv12[ns12lv12]  = { 0.036,   0.964   };
+
+    const int ns12lv14 = 2;    // 7.01 MeV double
+    double s12Elv14[ns12lv14]  = { 0.00609, 0.00701 };
+    double s12Plv14[ns12lv14]  = { 0.014,   0.986   };
+
+    const int ns12lv16 = 3;    // 7.34 MeV triple
+    double s12Elv16[ns12lv16]  = { 0.00609, 0.00673, 0.00734 };
+    double s12Plv16[ns12lv16]  = { 0.490,   0.343,   0.167   };
      
     // Select one of the P1/2, P3/2 or S1/2
     double rshell = rnd->RndDec().Rndm();
@@ -186,10 +242,11 @@ void NucDeExcitationSim::OxygenTargetSim(GHepRecord * evrec) const
                this->AddPhoton(evrec, p32Elv[1], dt);
             }
             // >>> emit a cascade of gammas 
+            // >>> cascade goes from 9.93 --> 6.32 --> g.s.
             else 
             if(r < p32Plv1_1gamma + p32Plv1_cascade) {
-               this->AddPhoton(evrec, p32Elv[1],           dt);
-               this->AddPhoton(evrec, p32Elv[1]-p32Elv[0], dt);
+               this->AddPhoton(evrec, p32Elv[0],           dt);  // 6.32 MeV
+               this->AddPhoton(evrec, p32Elv[1]-p32Elv[0], dt);  // 3.61 MeV (the two total 9.93 MeV)
             }
         }
         // >> 10.7 MeV state 
@@ -223,9 +280,11 @@ void NucDeExcitationSim::OxygenTargetSim(GHepRecord * evrec) const
         LOG("NucDeEx", pNOTICE) 
             << "Selected S1/2 excited state = " << sel_state;
 
+        if(sel_state == -1) return;  // since the gamma-ray emitting states do not exhaust the total available s-shell states
+
         // Decay that excited state
         bool multiple_decay_modes = 
-              (sel_state==2 || sel_state==7 || sel_state==10);
+              (sel_state==2 || sel_state==6 || sel_state==7 || sel_state==9 || sel_state==10 || sel_state==12 || sel_state==14 || sel_state==16);
         if(!multiple_decay_modes) {
           this->AddPhoton(evrec, s12Elv[sel_state], dt); 
         } else {
@@ -235,11 +294,26 @@ void NucDeExcitationSim::OxygenTargetSim(GHepRecord * evrec) const
            case(2) : 
               ndec = ns12lv2;  pdec = s12Plv2;  edec = s12Elv2;
               break;
+           case(6) : 
+              ndec = ns12lv6;  pdec = s12Plv6;  edec = s12Elv6;
+              break;
            case(7) : 
               ndec = ns12lv7;  pdec = s12Plv7;  edec = s12Elv7;
               break;
+           case(9) : 
+              ndec = ns12lv9;  pdec = s12Plv9;  edec = s12Elv9;
+              break;
            case(10) : 
               ndec = ns12lv10; pdec = s12Plv10; edec = s12Elv10;
+              break;
+           case(12) : 
+              ndec = ns12lv12;  pdec = s12Plv12;  edec = s12Elv12;
+              break;
+           case(14) : 
+              ndec = ns12lv14;  pdec = s12Plv14;  edec = s12Elv14;
+              break;
+           case(16) : 
+              ndec = ns12lv16;  pdec = s12Plv16;  edec = s12Elv16;
               break;
            default:
              return;
@@ -259,7 +333,10 @@ void NucDeExcitationSim::OxygenTargetSim(GHepRecord * evrec) const
         }//mult.dec.ch 
 
     } // s1/2
-    else {
+    else {       // continuum/other states above the shell model 
+      LOG("NucDeEx", pNOTICE) 
+          << "Hit nucleon populates continuum/other states; no photon emitted.";
+      return;
     }
   } // p-hole
 
@@ -272,14 +349,85 @@ void NucDeExcitationSim::OxygenTargetSim(GHepRecord * evrec) const
     //
 
     // > probabilities for creating a n-hole in the P1/2, P3/2, S1/2 shells
-    double Pp12 = 0.25;  // P1/2 
-    double Pp32 = 0.44;  // P3/2 
-    double Ps12 = 0.09;  // S1/2 
+    double Pp12 = 0.158;  // P1/2 
+    double Pp32 = 0.310;  // P3/2 
+    double Ps12 = 0.200;  // S1/2 
     //>
     double p32Elv = 0.00618;
-    //>
-    double s12Elv = 0.00703;
-    double s12Plv = 0.222;
+    // > excited state energy levels & probabilities for S1/2-shell n-holes
+    // > apply isospin symmetry to treat the n-hole states, as no direct measurements exist
+    const int ns12 = 17;
+    double s12Elv[ns12] = {   // J^pi
+               0.00309,       // 1/2+
+               0.00368,       // 3/2+
+               0.00385,       // 5/2+
+               0.00444,       // 2+
+               0.00492,       // 0-
+               0.00511,       // 2-
+               0.00569,       // 1-
+               0.00583,       // 3-
+               0.00609,       // 1-
+               0.00620,       // 1+
+               0.00645,       // 3+
+               0.00659,       // 0+
+               0.00673,       // 3-
+               0.00690,       // 0-
+               0.00701,       // 2+
+               0.00703,       // 2+
+               0.00734 };     // 2-
+    double s12Plv[ns12] = { 
+               0.0300,        
+               0.0420,        
+               0.0460,        
+               0.0580,        
+               0.0520,        
+               0.0000,        
+               0.0450,        
+               0.0054,      
+               0.0000,        
+               0.0000,        
+               0.0280,        
+               0.0000,       
+               0.0043,        
+               0.0000,        
+               0.0335,  
+               0.0335,
+               0.0570 };
+    // - gamma energies and probabilities for S1/2-shell p-hole excited 
+
+    //   states with >1 deexcitation modes
+    //   sel_state = [2,6,7,9,10,12,14,16]
+    const int ns12lv2 = 3;     // 3.85 MeV triple
+    double s12Elv2[ns12lv2]    = { 0.00309, 0.00368, 0.00385 };
+    double s12Plv2[ns12lv2]    = { 0.012,   0.363,   0.625   };
+
+    const int ns12lv6 = 2;     // 5.69 MeV double
+    double s12Elv6[ns12lv6]    = { 0.00338, 0.00569 };
+    double s12Plv6[ns12lv6]    = { 0.639,   0.361   };
+
+    const int ns12lv7 = 2;     // 5.83 MeV double
+    double s12Elv7[ns12lv7]    = { 0.00511, 0.00583 };
+    double s12Plv7[ns12lv7]    = { 0.629,   0.213   };
+
+    const int ns12lv9 = 2;     // 6.20 MeV double
+    double s12Elv9[ns12lv9]    = { 0.00389, 0.00620 };
+    double s12Plv9[ns12lv9]    = { 0.769,   0.231   };
+
+    const int ns12lv10 = 2;    // 6.45 MeV double
+    double s12Elv10[ns12lv10]  = { 0.00511, 0.00644 };
+    double s12Plv10[ns12lv10]  = { 0.081,   0.701   };
+
+    const int ns12lv12 = 2;    // 6.73 MeV double
+    double s12Elv12[ns12lv12]  = { 0.00609, 0.00673 };
+    double s12Plv12[ns12lv12]  = { 0.036,   0.964   };
+
+    const int ns12lv14 = 2;    // 7.01 MeV double
+    double s12Elv14[ns12lv14]  = { 0.00609, 0.00701 };
+    double s12Plv14[ns12lv14]  = { 0.014,   0.986   };
+
+    const int ns12lv16 = 3;    // 7.34 MeV triple
+    double s12Elv16[ns12lv16]  = { 0.00609, 0.00673, 0.00734 };
+    double s12Plv16[ns12lv16]  = { 0.490,   0.343,   0.167   };
 
     // Select one of the P1/2, P3/2 or S1/2
     double rshell = rnd->RndDec().Rndm();
@@ -307,11 +455,76 @@ void NucDeExcitationSim::OxygenTargetSim(GHepRecord * evrec) const
     if(rshell < Pp12 + Pp32 + Ps12) {
         LOG("NucDeEx", pNOTICE) 
             << "Hit nucleon left a S1/2 shell n-hole";
-        // only one of the deexcitation modes involve a (7.03 MeV) photon
-        double r = rnd->RndDec().Rndm();
-        if(r < s12Plv) this->AddPhoton(evrec, s12Elv,dt);
+        // Select one of the excited states caused by a S1/2 shell hole
+        double rdecmode  = rnd->RndDec().Rndm();  
+        double prob_sum  = 0;
+        int    sel_state = -1;
+        for(int istate=0; istate<ns12; istate++) {
+            prob_sum += s12Plv[istate];
+            if(rdecmode < prob_sum) {
+              sel_state = istate;
+              break;
+            }
+        }
+        LOG("NucDeEx", pNOTICE) 
+            << "Selected S1/2 excited state = " << sel_state;
+
+        if(sel_state == -1) return;
+
+        // Decay that excited state
+        bool multiple_decay_modes = 
+              (sel_state==2 || sel_state==6 || sel_state==7 || sel_state==9 || sel_state==10 || sel_state==12 || sel_state==14 || sel_state==16);
+        if(!multiple_decay_modes) {
+          this->AddPhoton(evrec, s12Elv[sel_state], dt); 
+        } else {
+          int ndec = -1;
+          double * pdec = 0, * edec = 0;
+          switch(sel_state) {
+           case(2) : 
+              ndec = ns12lv2;  pdec = s12Plv2;  edec = s12Elv2;
+              break;
+           case(6) : 
+              ndec = ns12lv6;  pdec = s12Plv6;  edec = s12Elv6;
+              break;
+           case(7) : 
+              ndec = ns12lv7;  pdec = s12Plv7;  edec = s12Elv7;
+              break;
+           case(9) : 
+              ndec = ns12lv9;  pdec = s12Plv9;  edec = s12Elv9;
+              break;
+           case(10) : 
+              ndec = ns12lv10; pdec = s12Plv10; edec = s12Elv10;
+              break;
+           case(12) : 
+              ndec = ns12lv12;  pdec = s12Plv12;  edec = s12Elv12;
+              break;
+           case(14) : 
+              ndec = ns12lv14;  pdec = s12Plv14;  edec = s12Elv14;
+              break;
+           case(16) : 
+              ndec = ns12lv16;  pdec = s12Plv16;  edec = s12Elv16;
+              break;
+           default:
+             return;
+          }
+          double r = rnd->RndDec().Rndm();  
+          double decmode_prob_sum = 0;
+          int sel_decmode = -1;
+          for(int idecmode=0; idecmode < ndec; idecmode++) {
+             decmode_prob_sum += pdec[idecmode];
+             if(r < decmode_prob_sum) {
+                 sel_decmode = idecmode;
+                 break;
+             }
+          }
+          if(sel_decmode == -1) return;
+          this->AddPhoton(evrec, edec[sel_decmode], dt);  
+        }//mult.dec.ch 
     }
     else {
+      LOG("NucDeEx", pNOTICE) 
+          << "Hit nucleon populates continuum/other states; no photon emitted.";
+      return;
     }
   } //n-hole
 }
