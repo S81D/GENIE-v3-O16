@@ -31,6 +31,23 @@ Additional arguments can be found by running `./run_annie_genie.sh -h`
 Here is an example command (assuming local copies of `annie_v04.gdml` and `gxspl-FNALsmall.xml`):
 `./run_annie_genie.sh -r 0 -n 1000 -f /annie/data/flux/gsimple_bnb/gsimple_beammc_annie_00*.root -x gxspl-FNALsmall.xml --seed 42 --topvol TWATER_LV --tune G18_10a_02_11a`
 
+### ADDENDUM FOR BUILDING FROM LOCAL FORK
+
+- Enter the GENIE singularity container
+- Locate `annie/configure.sh`
+
+- `chmod +x configure.sh`
+- `./configure.sh`
+- `make -j4`
+- `make install`
+
+To run GENIE, you can then run the `execute_GENIE.sh` script:
+- `chmod +x execute_GENIE.sh`
+- `./execute_GENIE.sh`
+
+If re-entering the container after building, simply enter the container and run: `./execute_GENIE.sh`
+
+
 # The GENIE Event Generator
 
 The GENIE Generator product is an advanced physics simulation used by nearly all modern neutrino experiments and 
