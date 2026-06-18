@@ -109,14 +109,14 @@ void NucDeExcitationSim::OxygenTargetSim(GHepRecord * evrec) const
     //
 
     // > probabilities for creating a p-hole in the P1/2, P3/2, S1/2 shells
-    double Pp12 = 0.158;             // P1/2
-    double Pp32 = 0.327;             // P3/2 
+    double Pp12 = 0.146;             // P1/2
+    double Pp32 = 0.324;             // P3/2 
     double Ps12 = 0.200;             // S1/2 
 
     // > excited state energy levels & probabilities for P3/2-shell p-holes
     const int np32 = 3;
     double p32Elv[np32] = { 0.00632, 0.00993, 0.01070 };
-    double p32Plv[np32] = { 0.899,   0.049,   0.052   }; 
+    double p32Plv[np32] = { 0.863,   0.051,   0.086   }; 
     // - probabilities for deexcitation modes of P3/2-shell p-hole state '1' 
     double p32Plv1_1gamma  = 0.78;  // prob to decay via 1 gamma
     double p32Plv1_cascade = 0.22;  // prob to decay via gamma cascade
@@ -349,8 +349,8 @@ void NucDeExcitationSim::OxygenTargetSim(GHepRecord * evrec) const
     //
 
     // > probabilities for creating a n-hole in the P1/2, P3/2, S1/2 shells
-    double Pp12 = 0.158;  // P1/2 
-    double Pp32 = 0.310;  // P3/2 
+    double Pp12 = 0.146;  // P1/2 
+    double Pp32 = 0.298;  // P3/2 
     double Ps12 = 0.200;  // S1/2 
     //>
     double p32Elv = 0.00618;
