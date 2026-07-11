@@ -34,7 +34,7 @@ export TOPVOL=""
 
 # which parameter set in BNBFlux.xml to use
 # ANNIE-tank or ANNIE-rock (wider window)
-export FLXPSET="ANNIE-tank"
+export FLXPSET="ANNIE-rock"
 export FLXFILES=/annie/data/flux/gsimple_bnb/gsimple_beammc_annie_*.root
 
 export GDML=annie_v04.gdml
@@ -112,7 +112,7 @@ EOF
 process_args() {
 
   printusage=0
-  dorock=0
+  dorock=1
 
   # longarg "::" means optional arg, if not supplied given as null string
   # use this for targfile lowth peanut
@@ -197,7 +197,7 @@ process_args() {
   if [ $dorock -ne 0 ]; then
     TOPVOL="WORLD_LV"
     FLXPSET="ANNIE-rock"
-    ZMIN="-2000"  # start at z = -20m  (given in geom units cm)
+    ZMIN="-10"  # start at z = -20m  (given in geom units cm)
   fi
 
   # show the defaults correctly now
